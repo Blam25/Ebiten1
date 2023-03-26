@@ -1,9 +1,9 @@
 package main
 
 import (
+	"image"
 	_ "image/png"
 	"log"
-	"image"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -13,12 +13,13 @@ var game Game
 //var op *ebiten.DrawImageOptions
 
 func init() {
-	game = Game{}
+	game = NewGame()
 	sprite1 := New_Sprite()
-	enemy1  := New_Enemy()
-	enemy2  := New_Enemy() ; enemy2.xpos = 500 ; enemy2.ypos = 500
-	enemy3  := New_Enemy() ; enemy3.xpos = 1000 ; enemy3.ypos = 1000
+	enemy1 := New_Enemy()
+	enemy2 := New_Enemy() ; enemy2.xpos = 500 ; enemy2.ypos = 500 ; NewCollider(&game, &enemy2, NewDmgEvent(60, "Im hit"), NewDmgEvent(60, "Yes really"))
+	enemy3 := New_Enemy() ; enemy3.xpos = 1000 ; enemy3.ypos = 1000 ;
 	game.entities = append(game.entities, &enemy1, &enemy2, &enemy3)
+	game.collideables = append(game.collideables, &enemy1, &enemy2, &enemy3)
 	game.player = sprite1
 	//op := &ebiten.DrawImageOptions{}
 	//op = &ebiten.DrawImageOptions{}
@@ -36,9 +37,15 @@ func main() {
 }
 
 type entity interface {
-	getimg() *ebiten.Image
 	draw(screen *ebiten.Image)
-	move(float64, float64)
-	collide(image.Rectangle)
+	moveCamera(float64, float64)
 	getPosition() (float64, float64)
+}
+
+type collide interface {
+	collide(image.Rectangle)
+}
+
+type event interface {
+	execute(enemy *Enemy)
 }

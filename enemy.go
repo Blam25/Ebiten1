@@ -15,6 +15,7 @@ type Enemy struct {
 	xpos      float64
 	ypos      float64
 	moveSpeed float64
+	health	  int
 }
 
 func New_Enemy() Enemy {
@@ -27,6 +28,7 @@ func New_Enemy() Enemy {
 	s.xpos = 0
 	s.ypos = 0
 	s.moveSpeed = 7
+	s.health = 1000
 	return s
 }
 
@@ -36,11 +38,7 @@ func (s *Enemy) draw(screen *ebiten.Image) {
 	screen.DrawImage(s.img, &s.op)
 }
 
-func (s *Enemy) getimg() *ebiten.Image {
-	return s.img
-}
-
-func (s *Enemy) move(deltaX float64, deltaY float64) {
+func (s *Enemy) moveCamera(deltaX float64, deltaY float64) {
 	s.ypos = s.ypos + deltaY
 	s.xpos = s.xpos + deltaX
 }
@@ -53,17 +51,6 @@ func (s *Enemy) collide(rectPlayer image.Rectangle) {
 		println("yo")
 		println("yo1")
 	}
-	
-	/*Rect(s.xpos, s.ypos, s.xpos + 30, s.ypos - 60)
-	
-	if player.img.Bounds().Overlaps(s.img.Bounds()) {
-		println("yo")
-		println("yo1")
-		println("yo2")
-		println("yo3")
-		println("yo4")
-	}*/
-	
 }
 
 func (s *Enemy) getPosition() (float64, float64){

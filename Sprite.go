@@ -35,9 +35,6 @@ func (s *Sprite) draw(screen *ebiten.Image) {
 	screen.DrawImage(s.img, &s.op)
 }
 
-func (s *Sprite) getimg() *ebiten.Image {
-	return s.img
-}
 
 func (s *Sprite) move() (float64, float64) {
 	var x float64
